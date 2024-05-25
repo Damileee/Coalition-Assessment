@@ -1,8 +1,10 @@
 <template>
-  <header :style="backgroundStyle" class="p-10 w-full h-[850px] bg-cover bg-no-repeat relative flex flex-col justify-center items-center">
+  <header :style="backgroundStyle" class="p-10 w-full sm:h-[850px] xs:h-[50rem] xs:py-[5rem] bg-cover bg-no-repeat relative flex flex-col justify-center items-center">
     <div class="absolute top-0 left-0 right-0 lg:py-8 xs:py-4 sm:py-4 lg:px-16 sm:px-6 xs:px-6 flex justify-between">
       <img class="cursor-pointer sm:w-16 xs:w-12" src="./assets/logo.svg" alt="">
-      <button class="chat-button sm:py-[8px] sm:px-4 xs:px-2 xs:py-1 xs:text-[14px] lg:text-base"><a href="https://wa.me/message/DMNVYF4VDRVZK1">Chat with us</a></button>
+      <button class="chat-button sm:py-[8px] sm:px-4 xs:px-2 xs:py-1 xs:text-[14px] lg:text-base">
+        <a href="https://wa.me/message/DMNVYF4VDRVZK1">Chat with us</a>
+      </button>
     </div>
     <div class="flex flex-col items-center text-[#FEFEFE]">
       <span class="font-normal lg:text-[80px] xs:text-[30px]">Sheela styles</span>
@@ -21,8 +23,8 @@
       </div>
     </div>
     <div class="flex sm:gap-16 xs:gap-2 justify-center lg:mb-16">
-      <img class="xl:w-[580px] lg:w-[455px] sm:w-[300px] xs:w-[200px] sm:mt-20 xs:mt-5" src="./assets/Canon0130.jpg" alt="" loading="lazy">
-      <img class="xl:w-[580px] lg:w-[455px] sm:w-[300px] xs:w-[200px] sm:mb-20 xs:mb-5" src="./assets/Canon0062.jpg" alt="" loading="lazy">
+      <img class="xl:w-[580px] lg:w-[455px] sm:w-[300px] xs:w-[193px] sm:mt-20 xs:mt-5" src="./assets/Canon0130.jpg" alt="" loading="lazy">
+      <img class="xl:w-[580px] lg:w-[455px] sm:w-[300px] xs:w-[189px] sm:mb-20 xs:mb-5" src="./assets/Canon0062.jpg" alt="" loading="lazy">
     </div>
     <div class="flex sm:gap-5 xs:gap-5 justify-center align-middle items-start lg:my-16 sm:my-7 xs:my-8">
       <div class="flex sm:gap-4 xs:gap-1 xs:w-[60%] sm:w-[40%] lg:w-[25%] xl:w-[13%]">
@@ -76,15 +78,15 @@
     <div class="sm:flex sm:gap-12">
       <img class="xl:w-[440px] lg:w-[360px] sm:w-[200px] xs:w-[398px]"src="./assets/Canon003511.jpg" alt="" loading="lazy">
       <div class="xs:mt-6 sm:mt-0">
-        <div class="font-normal sm:text-xl xs:text-[20px]">Menu</div>
+        <div class="font-normal sm:text-xl xs:text-[18px]">Menu</div>
         <div class="flex flex-col xl:gap-[17.5rem] lg:gap-[14.5rem] sm:gap-[6rem] xs:gap-[3.3rem]">
-          <div class="flex flex-wrap sm:gap-10 xs:gap-5 font-normal xl:text-[32px] sm:text-[20px] xs:text-[24px]">
+          <div class="flex flex-wrap sm:gap-10 xs:gap-5 font-normal xl:text-[32px] sm:text-[20px] xs:text-[20px]">
             <a href="#about">About</a>
             <a href="#selected-styles">Selected styles</a>
             <a href="#sustainability">Sustainability</a>
             <a href="https://wa.me/message/DMNVYF4VDRVZK1">Chat with us</a>
           </div>
-          <div class="font-normal xl:text-2xl sm:text-lg xs:text-[20px] flex sm:flex-row xs:flex-col sm:gap-6 xs:gap-2">
+          <div class="font-normal xl:text-2xl sm:text-lg xs:text-[17px] flex sm:flex-row xs:flex-col sm:gap-6 xs:gap-2">
             <span>Call us: +44 7957 279873</span>
             <span>Email us: sales.sheelastyles@gmail.com</span>
           </div>
@@ -98,13 +100,18 @@
 import heroImage1 from './assets/heroImage1.jpg';
 import heroImage2 from './assets/heroImage2.jpg';
 import heroImage3 from './assets/heroImage3.jpg';
+import Frame34 from './assets/Frame34.jpg';
+import Frame35 from './assets/Frame35.jpg';
+import Frame36 from './assets/Frame36.jpg';
 
 export default {
   name: 'App',
   data() {
     return {
-      images: [heroImage1, heroImage2, heroImage3],
+      heroImages: [heroImage1, heroImage2, heroImage3],
+      frameImages: [Frame34, Frame35, Frame36],
       currentImageIndex: 0,
+      images: [],
     };
   },
   computed: {
@@ -115,9 +122,22 @@ export default {
     },
   },
   mounted() {
+    this.updateImagesBasedOnScreenSize();
+    window.addEventListener('resize', this.updateImagesBasedOnScreenSize);
     this.startImageRotation();
   },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.updateImagesBasedOnScreenSize);
+  },
   methods: {
+    updateImagesBasedOnScreenSize() {
+      const screenWidth = window.innerWidth;
+      if (screenWidth < 480) {
+        this.images = this.frameImages;
+      } else {
+        this.images = this.heroImages;
+      }
+    },
     startImageRotation() {
       setInterval(() => {
         this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
@@ -131,6 +151,7 @@ export default {
 /* Add transition to the background image */
 header {
   transition: background-image 1s ease-in-out;
+  height: 850px;
 }
 
 /* Footer link hover effect */
@@ -188,13 +209,13 @@ footer a:hover::after {
 
 @media (max-width: 480px) {
   header {
-    height: 300px;
+    height: 40rem;
   }
 }
 
 @media (max-width: 425px) {
   header {
-    height: 500px;
+    height: 40rem;
   }
 }
 </style>
