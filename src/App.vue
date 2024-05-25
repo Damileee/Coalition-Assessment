@@ -69,7 +69,7 @@
     <div class="flex sm:gap-7 xs:gap-2 items-center justify-center sm:mb-20 xs:mb-10">
       <img class="xl:w-[475.5px] lg:w-[400px] sm:w-[280px] xs:w-[140px]"src="./assets/Canon02921.jpg" alt="" loading="lazy">
       <img class="xl:w-[475.5px] lg:w-[324px] sm:w-[226px] xs:w-[115px]" src="./assets/Frame15.jpg" alt="" loading="lazy">
-      <p class="font-normal sm:text-xl xs:text-[6.3px]">We source eco-friendly fabrics to reduce waste through innovative design process, we prioritize quality and sustainability at every step.</p>
+      <p class="font-normal sm:text-xl xs:text-[10px]">We source eco-friendly fabrics to reduce waste through innovative design process, we prioritize quality and sustainability at every step.</p>
     </div>
   </div>
   <footer class="bg-[#010101] text-[#FEFEFE] xl:px-[2rem] 2xl:px-[10rem] lg:py-[4rem] sm:py-6 sm:px-4 xs:py-10 xs:px-4">
