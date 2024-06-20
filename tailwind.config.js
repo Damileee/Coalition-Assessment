@@ -6,7 +6,7 @@ module.exports = {
   ],
   theme: {
     extend: { fontFamily: {
-      'belleza': ['Belleza', 'sans-serif'],
+      'manrope': ['Manrope', 'sans-serif'],
     },
       screens: {
         'xs': '320px', // Custom small breakpoint
