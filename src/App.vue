@@ -3,13 +3,20 @@
     <Nav />
     <main class="flex gap-6 mt-6">
       <aside>
-        <PatientList :patients="patients" @selectPatient="selectPatient" />
+        <PatientList :patients="patients" :selectedPatient="selectedPatient" @selectPatient="selectPatient" />
       </aside>
+
       <section>
         <DiagnosisHistory 
           :patient="selectedPatient"
         />
+        <DiagnosticList v-if="selectedPatient" :diagnosticList="selectedPatient.diagnostic_list" class="mt-3"/>
       </section>
+
+      <aside>
+        <PatientInfo v-if="selectedPatient" :patient="selectedPatient" />
+        <LabResults v-if="selectedPatient" :labResults="selectedPatient.lab_results" class="mt-3"/>
+      </aside>
     </main>
   </div>
 </template>
@@ -21,6 +28,9 @@ import axios from 'axios';
 import Nav from './components/Nav.vue';
 import PatientList from './components/PatientList.vue';
 import DiagnosisHistory from './components/DiagnosisHistory.vue';
+import DiagnosticList from './components/DiagnosticList.vue';
+import PatientInfo from './components/PatientInfo.vue';
+import LabResults from './components/LabResults.vue';
 
 const patients = ref([]);
 const selectedPatient = ref(null);
@@ -34,7 +44,7 @@ const fetchPatientData = async () => {
       }
     });
     patients.value = response.data;
-    selectedPatient.value = patients.value[0]; // Default to the first patient
+    selectedPatient.value = patients.value[3]; // Adjust this based on your logic
   } catch (error) {
     console.error('Error fetching patient data:', error);
   }

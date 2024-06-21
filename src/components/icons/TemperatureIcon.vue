@@ -1,4 +1,5 @@
-<svg id="temperature" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="96" height="96" viewBox="0 0 96 96">
+<template>
+  <svg id="temperature" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="96" height="96" viewBox="0 0 96 96">
   <defs>
     <clipPath id="clip-path">
       <rect id="Rectangle_45" data-name="Rectangle 45" width="31.632" height="56" fill="none"/>
@@ -19,3 +20,4 @@
     </g>
   </g>
 </svg>
+</template>

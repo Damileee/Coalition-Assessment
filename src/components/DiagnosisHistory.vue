@@ -1,51 +1,69 @@
 <template>
-  <div class="bg-white rounded-lg p-6 w-[766px]">
+  <div class="bg-white rounded-2xl p-6 w-[900px]">
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-2xl font-bold">Diagnosis History</h2>
     </div>
     <div v-if="patient">
       <div class="grid grid-col gap-4 lg:grid-col">
-        <div class="bg-purple-50 p-4 rounded-lg flex gap-12">
+        <div class="bg-[#F4F0FE] p-4 rounded-2xl flex gap-12">
           <div>
+            <!-- Dropdown -->
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-lg font-bold">Blood Pressure</h3>
-              <select v-model="selectedTimeFrame" @change="updateChartData">
+              <select class="bg-[#F4F0FE]" v-model="selectedTimeFrame" @change="updateChartData">
                 <option value="6">Last 6 months</option>
                 <option value="12">Last 12 months</option>
               </select>
             </div>
-            <div>
-              <Line :data="chartData" :options="chartOptions"></Line>
+
+            <!-- Line chart -->
+            <div class="w-[550px] h-[150px]">
+              <Line :chart-data="chartData" :chart-options="chartOptions" class="w-[550px] h-[150px]"></Line>
             </div>
           </div>
-          <div class="">
-            <div>
-              <p class="text-pink-500 font-bold">Systolic</p>
-              <p class="text-3xl font-bold">{{ systolic.value }}</p>
-              <p>{{ systolic.levels }}</p>
-            </div>
-            <div>
-              <p class="text-purple-500 font-bold">Diastolic</p>
-              <p class="text-3xl font-bold">{{ diastolic.value }}</p>
-              <p>{{ diastolic.levels }}</p>
-            </div>
+
+          <!-- Blood Pressure Indicator -->
+          <div>
+            <BloodPressureIndicator
+              label="Systolic"
+              :value="systolic.value"
+              :levels="systolic.levels"
+              color="bg-[#E66FD2]"
+              isBorderBottom
+            />
+            <BloodPressureIndicator
+              label="Diastolic"
+              :value="diastolic.value"
+              :levels="diastolic.levels"
+              color="bg-[#8C6FE6]"
+            />
           </div>
         </div>
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div class="bg-blue-50 p-4 rounded-lg flex flex-col">
-            <img src="../assets/respiratoryIcon.svg" alt="Respiratory Rate" class="mb-2">
-            <p class="text-xl font-bold">{{ respiratoryRate.value }} bpm</p>
-            <p>{{ respiratoryRate.levels }}</p>
-          </div>
-          <div class="bg-red-50 p-4 rounded-lg flex flex-col">
-            <img src="../assets/temperatureIcon.svg" alt="Temperature" class="mb-2">
-            <p class="text-xl font-bold">{{ temperature.value }}°F</p>
-            <p>{{ temperature.levels }}</p>
-          </div>
-          <div class="bg-pink-50 p-4 rounded-lg flex flex-col">
-            <img src="../assets/heartRateIcon.svg" alt="Heart Rate" class="mb-2">
-            <p class="text-xl font-bold">{{ heartRate.value }} bpm</p>
-            <p>{{ heartRate.levels }}</p>
+
+        <!-- VitalSign section -->
+        <div v-if="patient">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <VitalSign
+              :icon="RespiratoryIcon"
+              title="Respiratory Rate"
+              :value="respiratoryRate.value + ' bpm'"
+              :levels="respiratoryRate.levels"
+              wrapperClass="bg-[#E0F3FA] p-4 rounded-2xl flex flex-col"
+            />
+            <VitalSign
+              :icon="TemperatureIcon"
+              title="Temperature"
+              :value="temperature.value + '°F'"
+              :levels="temperature.levels"
+              wrapperClass="bg-[#FFE6E9] p-4 rounded-2xl flex flex-col"
+            />
+            <VitalSign
+              :icon="HeartRateIcon"
+              title="Heart Rate"
+              :value="heartRate.value + ' bpm'"
+              :levels="heartRate.levels"
+              wrapperClass="bg-[#FFE6F1] p-4 rounded-2xl flex flex-col"
+            />
           </div>
         </div>
       </div>
@@ -57,7 +75,12 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import VitalSign from './VitalSign.vue';
+import BloodPressureIndicator from './BloodPressureIndicator.vue';
+import RespiratoryIcon from '../components/icons/RespiratoryIcon.vue'
+import TemperatureIcon from '../components/icons/TemperatureIcon.vue';
+import HeartRateIcon from '../components/icons/HeartRateIcon.vue';
 import { Line } from 'vue-chartjs';
 import {
   Chart as ChartJS,
@@ -83,36 +106,16 @@ const chartOptions = ref({
     x: {
       display: true,
       title: {
-        display: true,
-        text: 'Month'
+        display: false,
       }
     },
     y: {
       display: true,
       title: {
-        display: true,
-        text: 'Value'
+        display: false,
       }
     }
   }
-});
-
-const chartData = ref({
-  labels: [],
-  datasets: [
-    {
-      label: 'Systolic',
-      borderColor: '#FF6384',
-      data: [],
-      fill: false
-    },
-    {
-      label: 'Diastolic',
-      borderColor: '#36A2EB',
-      data: [],
-      fill: false
-    }
-  ]
 });
 
 const selectedTimeFrame = ref('6');
@@ -122,11 +125,41 @@ const heartRate = ref({});
 const respiratoryRate = ref({});
 const temperature = ref({});
 
+const systolicData = computed(() => {
+  const history = props.patient?.diagnosis_history ?? [];
+  return history.map(h => h.blood_pressure.systolic.value);
+});
+
+const diastolicData = computed(() => {
+  const history = props.patient?.diagnosis_history;
+  return history.map(h => h.blood_pressure.diastolic.value);
+});
+
+const chartData = ref({
+  labels: [],
+  datasets: [
+    {
+      label: 'Systolic',
+      borderColor: '#E66FD2',
+      tension: 0.4,
+      data: systolicData.value,
+      fill: false
+    },
+    {
+      label: 'Diastolic',
+      borderColor: '#8C6FE6',
+      tension: 0.4,
+      data: diastolicData.value,
+      fill: false
+    }
+  ]
+});
+
 const updateChartData = () => {
   if (!props.patient || !props.patient.diagnosis_history) return;
 
   const history = props.patient.diagnosis_history.slice(-selectedTimeFrame.value);
-  chartData.value.labels = history.map(h => `${h.month}, ${h.year}`);
+  chartData.value.labels = history.map(h => h.month);
   chartData.value.datasets[0].data = history.map(h => h.blood_pressure.systolic.value);
   chartData.value.datasets[1].data = history.map(h => h.blood_pressure.diastolic.value);
 
@@ -142,4 +175,4 @@ const updateChartData = () => {
 
 watch(() => props.patient, updateChartData, { immediate: true });
 watch(selectedTimeFrame, updateChartData);
-</script>
+</script>./icons/HeartRateIcon.vue./icons/RespiratoryIcon.vue./icons/TemperatureIcon.vue
