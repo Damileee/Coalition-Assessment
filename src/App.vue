@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nav />
-    <main class="flex gap-6 mt-6">
+    <main class="flex justify-between mt-6">
       <aside>
         <PatientList :patients="patients" :selectedPatient="selectedPatient" @selectPatient="selectPatient" />
       </aside>
@@ -10,12 +10,12 @@
         <DiagnosisHistory 
           :patient="selectedPatient"
         />
-        <DiagnosticList v-if="selectedPatient" :diagnosticList="selectedPatient.diagnostic_list" class="mt-3"/>
+        <DiagnosticList v-if="selectedPatient" :diagnosticList="selectedPatient.diagnostic_list" class="mt-6"/>
       </section>
 
       <aside>
         <PatientInfo v-if="selectedPatient" :patient="selectedPatient" />
-        <LabResults v-if="selectedPatient" :labResults="selectedPatient.lab_results" class="mt-3"/>
+        <LabResults v-if="selectedPatient" :labResults="selectedPatient.lab_results" class="mt-6"/>
       </aside>
     </main>
   </div>

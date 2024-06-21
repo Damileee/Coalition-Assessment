@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-2xl p-6 w-96">
+    <div class="bg-white rounded-2xl py-6 px-8 w-full">
       <div class="flex flex-col items-center mb-6">
         <img :src="patient.profile_picture" alt="Profile Picture" class="rounded-full w-[200px] h-[200px] mb-4" />
         <h2 class="text-xl font-bold">{{ patient.name }}</h2>

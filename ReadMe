@@ -31,3 +31,6 @@ Welcome to the Patient Management Application! This project provides a modern in
 - **Start the development server:** npm run dev
 
 Open your browser and visit `http://localhost:3000` to view the application.
+
+Below is the code Result
+![RESULT](image.png)

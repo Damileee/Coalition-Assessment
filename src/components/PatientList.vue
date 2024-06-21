@@ -1,10 +1,10 @@
 <template>
-    <div class="bg-white rounded-2xl pl-2 pr-1 py-8 w-[367px] h-[720px]">
+    <div class="bg-white rounded-2xl pl-2 pr-1 py-8 w-[367px]">
       <div class="flex items-center justify-between mb-3 pr-4">
         <p class="text-2xl font-bold">Patients</p>
         <img src="../assets/searchIcon.svg" alt="searchIcon">
       </div>
-      <div class="h-[634px] overflow-y-scroll custom-scrollbar cursor-pointer pr-2">
+      <div class="h-[790px] overflow-y-scroll custom-scrollbar cursor-pointer pr-2">
         <div v-for="patient in patients" :key="patient.name"
              :class="['flex items-center justify-between py-2 px-3 border-b border-gray-200', { 'bg-[#D8FCF7]': isSelected(patient) }]"
              @click="selectPatient(patient)">

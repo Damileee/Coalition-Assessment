@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-2xl p-6 w-[900px]">
+  <div class="bg-white rounded-2xl p-6 w-full">
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-2xl font-bold">Diagnosis History</h2>
     </div>
