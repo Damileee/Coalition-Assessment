@@ -44,7 +44,7 @@ const fetchPatientData = async () => {
       }
     });
     patients.value = response.data;
-    selectedPatient.value = patients.value[3]; // Adjust this based on your logic
+    selectedPatient.value = patients.value[3];
   } catch (error) {
     console.error('Error fetching patient data:', error);
   }
